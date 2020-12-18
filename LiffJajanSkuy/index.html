@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js" integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ" crossorigin="anonymous"></script>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <style>
+        #LiffAppContent {
+            max-width: 100%;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container marketing">
+
+        <!--Navbar-->
+        <div class="page-header pt-2 rounded-2">
+            <div class="collapse bg-success rounded-2" id="navbarToggleExternalContent">
+                <div class="bg-success p-4">
+                    <h5 class="text-white h4 bg-dark p-2 rounded-2 text-center" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; align-items: center;">Jajan Skuy</h5>
+                    <div class="nav flex-column nav-pills md-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <div class="btn-group-vertical col-md-auto">
+                            <button type="menu" class="btn btn-success" onclick="showForm();">Buat Pesanan</button>
+                            <button type="menu" class="btn btn-success" onclick="showList();">Riwayat Pesanan Anda</button>
+                            <button type="menu" class="btn btn-success" id="getProfileButton" onclick="showStatus();">Profil Anda</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <nav class="navbar navbar-dark bg-success rounded-2">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span></button>
+                    <!--ACTION BUTTON-->
+                    <div class="buttonGroup" style="text-align: center;">
+                        <div class="buttonRow">
+                            <button id="openWindowButton" class="btn btn-success bg-dark btn-small m-1">Open External Window</button>
+                            <button id="closeWindowButton" class="btn btn-danger btn-small m-1">Close Liff App</button>
+                        </div>
+                    </div>
+                    <div id="statusSign" class="m-1"></div>
+                </div>
+            </nav>
+        </div>
+        <!--END of NavBar-->
+
+        <!--Form Pesanan-->
+        <div class="container" id="main-list">
+            <div class="d-flex bd-highlight mb-3">
+                <div class="me-auto p-2 bd-highlight">
+                    <h3>Selesaikan Pesanan Anda</h3>
+                </div>
+                <div class="p-2 bd-highlight">
+                    <input type="button" class="btn btn-info m-1" value="+ Tambah Item" id="tapBarang" onclick="tambahItem();">
+                    <input type="button" class="btn btn-light m-1" value="Reset" id="reset" onclick="location.reload();">
+                </div>
+            </div>
+            <form id="this-form" class="row g-3 mb-2">
+                <div class="bg-info p-2 mt-2 rounded-2 card" id="form-pesanan">
+                    <div id="items">
+                        <input type="button" class="btn btn-outline-danger" style="display: none;" value="Hapus Item" id="tapHapus" onclick="hapusItem(' + lenData + ')" ;>
+                        <h3 id="header">Item 0</h3>
+                        <div class="col-md-3">
+                            <label for="validationDefault04" class="form-label">Nama Barang</label>
+                            <select class="form-select" id="validationDefault04">
+                            <option selected disabled value="">Choose...</option>
+                            <option>Menu A</option>
+                            <option>Menu B</option>
+                            <option>Menu C</option>
+                            <option>Menu D</option>
+                            <option>Menu AB</option>
+                            <option>Menu BC</option>
+                            <option>Menu CD</option>
+                            <option>Menu ABC</option>
+                            <option>Menu BCD</option>
+                            <option>Menu ABCD</option>
+                          </select>
+                        </div>
+                        <label for="validationDefault03" class="form-label">Jumlah Barang</label>
+                        <div class="input-group">
+                            <input type="number" id="count-item" class="form-control" placeholder="counts" aria-label="Recipient's username with two button addons">
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+
+            <!-- Button trigger modal -->
+            <button type="button" onclick="takeSummary();" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Submit Pesanan</button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Konfirmasi</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id="list-summary">
+                            Apakah Anda ingin melanjutkan?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary" onclick="simpanData();">Lanjutkan</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Daftar Pesanan (CARD)--->
+        <div class="container row" id="list-pesanan">
+            <div class="row p-2" style="place-content: center;">
+
+            </div>
+
+        </div>
+
+        <!-- PROFILE INFO -->
+        <div id="profileInfo" class="hidden textLeft" style="display:none;width: 100%; height: auto;">
+            <div class="row">
+                <h2>Your Profile</h2>
+                <div class="col-sm-5 col-md-6 p-2">
+                    <div id="profilePictureDiv" style="text-align: center;"></div>
+                </div>
+                <div class="col-sm-5 col-md-6 p-2" style="align-self: center;">
+                    <table>
+                        <tr>
+                            <th style="font-size: large;">Username</th>
+                            <td id="displayNameField"></td>
+                        </tr>
+                        <tr>
+                            <th style="font-size: large;">Message Status</th>
+                            <td id="statusMessageField"></td>
+                        </tr>
+                    </table>
+
+                    <!--LOGIN LOGOUT BUTTON-->
+                    <div class="buttonGroup" style="text-align: center;">
+                        <button id="liffLoginButton" class="btn btn-success btn-small">Log in</button>
+                        <button id="liffLogoutButton" class="btn btn-warning btn-small">Log out</button>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <!--Konten LIFF v2-->
+        <div id="liffAppContent" style="display:unset; text-align: center; margin-top: 6px;">
+
+            <div id="statusMessage">
+                <div id="isInClientMessage"></div>
+                <div id="apiReferenceMessage">
+                    <p>Available LIFF methods vary depending on the browser you use to open the LIFF app.</p>
+                    <p>Please refer to the <a href="https://developers.line.biz/en/reference/liff/#initialize-liff-app">API reference
+                        page</a> for more information.</p>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <hr class="featurette-divider">
+
+    <!--FOOTER-->
+    <footer class="container">
+        <p>Copyright 2020, All Right Reserved</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+</body>
+<!-- JavaScript Bundle with Popper -->
+<script src="config.js"></script>
+<script src="liff-starter.js"></script>
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+</html>
