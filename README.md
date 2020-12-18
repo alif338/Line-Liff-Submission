@@ -1,2 +1,10 @@
 # line-liff-submission
 Submisi kelas Membangun Line Front End Framework (LIFF) Dicoding
+
+
+Liff URL : https://liff.line.me/1655374332-7Dn0Z1m1
+Liff Endpoint : https://lifftjajanskuy.herokuapp.com/
+
+Keterangan Singkat :
+
+Line LIFF ini berisi beberapa instruksi, yang mana para user dapat membuat suatu pesanan,yang nantinya akan di-reply pada room chat dimana link liff ini dibuka
